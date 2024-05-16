@@ -1,12 +1,13 @@
 #include "liste.h"
 #define MAXSIR 50
-void creeaza(FILE *fd, team **lista)
+#define PUNCTAJMAX 1000
+void creeaza(FILE *fd, team **lista, int *nrechipe)
 {
-    int nrechipe, nrjuc;
+    int nrjuc;
     char sir[MAXSIR], nume[MAXSIR], spatiu;
     team *head = NULL;
-    fscanf(fd, "%d", &nrechipe);
-    for (int i = 0; i < nrechipe; i++) // citesc datele echipelor
+    fscanf(fd, "%d", nrechipe);
+    for (int i = 0; i < *nrechipe; i++) // citesc datele echipelor
     {
         team *newNode = (team *)malloc(sizeof(team));
         if (newNode == NULL)
@@ -17,6 +18,7 @@ void creeaza(FILE *fd, team **lista)
         fscanf(fd, "%d%c", &nrjuc, &spatiu);
         newNode->nrjuc = nrjuc;
         fgets(nume, MAXSIR, fd);
+        nume[strcspn(nume, "\n")] = '\0'; // elimina caracterul newline "\n"
         newNode->nume = (char *)malloc((strlen(nume) + 1) * sizeof(char));
         strcpy(newNode->nume, nume);
         if (head == NULL)
@@ -47,4 +49,67 @@ void creeaza(FILE *fd, team **lista)
         }
     }
     *lista = head;
+}
+void calculeazapuncte(team **lista)
+{
+    float suma;
+    team *echipa = *lista;
+
+    for (team *p = echipa; p; p = p->next)
+    {
+        suma = 0;
+        for (int j = 0; j < p->nrjuc; j++)
+        {
+            suma = suma + p->players[j].points;
+            p->puncte = (float)(suma / p->nrjuc);
+        }
+    }
+}
+int echiperamase(team **head, int nrechipe)
+{
+    int ramase = 1;
+    while (ramase * 2 <= nrechipe)
+        ramase = ramase * 2;
+    return ramase;
+}
+float minim(team **head)
+{
+    float min = PUNCTAJMAX;
+    for (team *p = *head; p != NULL; p = p->next)
+        if (p->puncte < min)
+            min = p->puncte;
+    return min;
+}
+void eliminaechipe(team **head, int *nrechipe, int ramase)
+{
+    float min;
+    while (*nrechipe > ramase) // sterg echipe pana raman nr dorit de mine
+    {
+        min = minim(head);
+        if (*head == NULL) // daca lista este goala
+            return;
+        team *current = *head;
+        if (current->puncte == min) // daca trebuie sa elimin primul element
+        {
+            *head = (*head)->next;
+            free(current);
+        }
+        team *prev = *head;
+        while (current)
+        {
+            if (current->puncte != min) // parcurg lista pana ajung la elementul cautat
+            {
+                prev = current;
+                current = current->next;
+            }
+            if (current->puncte == min) // daca trebuie sa elimin un element din interiorul listei
+            {
+                prev->next = current->next;
+                free(current -> players);
+                free(current);
+                break;
+            }
+        }
+        (*nrechipe)--;
+    }
 }

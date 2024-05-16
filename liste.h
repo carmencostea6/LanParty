@@ -17,4 +17,8 @@ struct Team
     struct Team *next;
 };
 typedef struct Team team;
-void creeaza(FILE *fd ,team **lista);
+void creeaza(FILE *fd ,team **lista,int *nrechipe);
+void calculeazapuncte(team **lista);
+float minim(team **head);
+int echiperamase(team **head, int nrechipe);
+void eliminaechipe(team ** head,int *nrechipe,int ramase);
