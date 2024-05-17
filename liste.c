@@ -86,29 +86,39 @@ void eliminaechipe(team **head, int *nrechipe, int ramase)
     while (*nrechipe > ramase) // sterg echipe pana raman nr dorit de mine
     {
         min = minim(head);
-        if (*head == NULL) // daca lista este goala
+        if (*head == NULL)
+        {
             return;
+        }
         team *current = *head;
         if (current->puncte == min) // daca trebuie sa elimin primul element
         {
             *head = (*head)->next;
             free(current);
         }
+        current = *head;
         team *prev = *head;
-        while (current)
+        while (current->next)
         {
             if (current->puncte != min) // parcurg lista pana ajung la elementul cautat
             {
                 prev = current;
                 current = current->next;
             }
-            if (current->puncte == min) // daca trebuie sa elimin un element din interiorul listei
+            else //if (current->puncte == min)- daca trebuie sa elimin un element din interiorul listei
             {
+
                 prev->next = current->next;
-                free(current -> players);
+                free(current->players);
                 free(current);
                 break;
+           
             }
+        }
+        if (current->next == NULL && current->puncte == min)
+        {
+            prev->next == NULL;
+            free(current);
         }
         (*nrechipe)--;
     }

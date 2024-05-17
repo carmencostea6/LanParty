@@ -10,7 +10,6 @@ int main(int argc, char *argv[])
         printf("fisierul c nu a putut fi deschis");
         exit(1);
     }
-     printf("Numele fisierului c.in: %s\n", argv[1]);
     fd = fopen(argv[2], "r");
     if (fd == NULL)
     {
@@ -32,11 +31,11 @@ int main(int argc, char *argv[])
     int nrechipe;
     if (ex[0] == 1)
     {
-        creeaza(fd, &lista,&nrechipe);
+        creeaza(fd, &lista, &nrechipe);
         for (team *p = lista; p != NULL; p = p->next)
             fprintf(fr, "%s\n", p->nume);
     }
-   fclose(fr);
+    fclose(fr);
     // exercitiul 2
     int ramase;
     if (ex[1] == 1)
@@ -48,9 +47,12 @@ int main(int argc, char *argv[])
             exit(1);
         }
         calculeazapuncte(&lista);
-        ramase=echiperamase(&lista,nrechipe);
-        eliminaechipe(&lista,&nrechipe,ramase);                    
-        for(team *p =lista;p!=NULL;p=p->next)  
-          fprintf(fr,"%s\n",p->nume);      
-}
+        ramase = echiperamase(&lista, nrechipe);
+        eliminaechipe(&lista, &nrechipe, ramase);
+        for (team *p = lista; p != NULL; p = p->next)
+            fprintf(fr, "%s\n", p->nume);
+        fclose(fr);
+    }
+    fclose(fc);
+    fclose(fd);
 }
