@@ -82,44 +82,39 @@ float minim(team **head)
 }
 void eliminaechipe(team **head, int *nrechipe, int ramase)
 {
-    float min;
-    while (*nrechipe > ramase) // sterg echipe pana raman nr dorit de mine
+    while (*nrechipe > ramase)
     {
-        min = minim(head);
+        float min = minim(head); // daca lista e goala
         if (*head == NULL)
-        {
             return;
-        }
         team *current = *head;
-        if (current->puncte == min) // daca trebuie sa elimin primul element
+        team *prev = NULL;
+        while (current != NULL)
         {
-            *head = (*head)->next;
-            free(current);
-        }
-        current = *head;
-        team *prev = *head;
-        while (current->next)
-        {
-            if (current->puncte != min) // parcurg lista pana ajung la elementul cautat
+            if (current->puncte == min)//daca gasesc o echipa cu minimul de puncte
+            {
+                if (current == *head) // daca sterg primul element
+                {
+                    *head = current->next;
+                    free(current->players);
+                    free(current);
+                    current = *head;
+                }
+                else
+                {
+                    prev->next = current->next;//daca sterg din interior
+                    free(current->players);
+                    free(current);
+                    current = prev->next;
+                }
+                (*nrechipe)--;
+                break; 
+            }
+            else// parcurg mai departe lista
             {
                 prev = current;
                 current = current->next;
             }
-            else //if (current->puncte == min)- daca trebuie sa elimin un element din interiorul listei
-            {
-
-                prev->next = current->next;
-                free(current->players);
-                free(current);
-                break;
-           
-            }
         }
-        if (current->next == NULL && current->puncte == min)
-        {
-            prev->next == NULL;
-            free(current);
-        }
-        (*nrechipe)--;
     }
 }
