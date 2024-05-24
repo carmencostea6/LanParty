@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+void alocare();
 // task1
 struct Player
 {
@@ -25,6 +26,7 @@ float minim(team **head);
 int echiperamase(team **head, int nrechipe);
 void eliminaechipe(team **head, int *nrechipe, int ramase);
 // task3
+void addAtBeginning ( team **head , team *v);
 struct N
 {
     team *val;
@@ -49,4 +51,4 @@ team *pop(Node **top);
 void deleteStack(Node **top);
 //functionalitate
 void primarunda(Queue **q, team **lista, int *nrechipe, FILE *fr,Node **winner, Node **defeated);
-void runda(Queue **q,int *nrechipe, FILE *fr, Node **winner, Node **defeated);
+void runda(Queue **q,int *nrechipe, FILE *fr, Node **winner, Node **defeated,team **lista8);

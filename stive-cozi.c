@@ -99,73 +99,68 @@ void deleteStack(Node **top)
         free(temp);
     }
 }
-void primarunda(Queue **q, team **lista, int *nrechipe, FILE *fr, Node **winner, Node **defeated)//gestionez separat prima runda-dau enQueue din lista
+void primarunda(Queue **q, team **lista, int *nrechipe, FILE *fr, Node **winner, Node **defeated) // gestionez separat prima runda-dau enQueue din lista
 {
     *q = createQueue();
     for (team *p = *lista; p != NULL; p = p->next)
         enQueue(*q, p); // Adăugăm echipa curentă în coada
     fprintf(fr, "\n--- ROUND NO:1\n");
-    for (int i = 0; i < (*nrechipe); i = i + 2)
-    {
+    for (int i = 0; i < (*nrechipe); i = i + 2){
         team *firstTeam = deQueue(*q);
         team *secondTeam = deQueue(*q);
         fprintf(fr, "%-33s-%33s\n", firstTeam->nume, secondTeam->nume);
-        if (firstTeam->puncte > secondTeam->puncte)
-        {
+        if (firstTeam->puncte > secondTeam->puncte){
             firstTeam->puncte++;
             push(winner, firstTeam);
             push(defeated, secondTeam);
         }
-        else
-        {
+        else{
             secondTeam->puncte++;
             push(winner, secondTeam);
             push(defeated, firstTeam);
         }
     }
-    //deleteStack(defeated); // sterg stiva invinsilor
+    // deleteStack(defeated); // sterg stiva invinsilor
     fprintf(fr, "\nWINNERS OF ROUND NO:1\n");
     for (Node *p = *winner; p != NULL; p = p->next)
         fprintf(fr, "%-34s-  %.2f\n", p->val->nume, p->val->puncte);
-    (*nrechipe)=(*nrechipe)/2;
+    (*nrechipe) = (*nrechipe) / 2;
 }
-void runda(Queue **q,int *nrechipe, FILE *fr, Node **winner, Node **defeated)//gestionez celelalte runde-dau enQueue din stiva de winners
+void runda(Queue **q, int *nrechipe, FILE *fr, Node **winner, Node **defeated, team **top8) // gestionez celelalte runde-dau enQueue din stiva de winners
 {
-     int nr=2;
-    while((*nrechipe)>1)
-    {
-    *q = createQueue();
-    for (Node *p = *winner; p != NULL; p = p->next)
-        enQueue(*q, p->val); // Adăugăm echipa curentă în coada
-    fprintf(fr, "\n--- ROUND NO:%d\n",nr);
-     Node *newWinners = NULL;
-     Node *newDefeated = NULL;
-
-    for (int i = 0; i < (*nrechipe); i = i + 2)
-    {
-        team *firstTeam = deQueue(*q);
-        team *secondTeam = deQueue(*q);
-        fprintf(fr, "%-33s-%33s\n", firstTeam->nume, secondTeam->nume);
-        
-        if (firstTeam->puncte > secondTeam->puncte)
-        {
-            firstTeam->puncte++;
-            push(&newWinners, firstTeam);
-            push(&newDefeated, secondTeam);
+    int nr = 2;
+    while ((*nrechipe) > 1){
+        *q = createQueue();
+        for (Node *p = *winner; p != NULL; p = p->next)
+            enQueue(*q, p->val); // Adăugăm echipa curentă în coada
+        fprintf(fr, "\n--- ROUND NO:%d\n", nr);
+        if ((*nrechipe) == 8){
+            for (Node *p = *winner; p != NULL; p = p->next)
+                addAtBeginning(top8, p->val);
         }
-        else
-        {
-            secondTeam->puncte++;
-            push(&newWinners, secondTeam);
-            push(&newDefeated, firstTeam);
+        Node *newWinners = NULL;
+        Node *newDefeated = NULL;
+        for (int i = 0; i < (*nrechipe); i = i + 2){
+            team *firstTeam = deQueue(*q);
+            team *secondTeam = deQueue(*q);
+            fprintf(fr, "%-33s-%33s\n", firstTeam->nume, secondTeam->nume);
+            if (firstTeam->puncte > secondTeam->puncte) {
+                firstTeam->puncte++;
+                push(&newWinners, firstTeam);
+                push(&newDefeated, secondTeam);
+            }
+            else {
+                secondTeam->puncte++;
+                push(&newWinners, secondTeam);
+                push(&newDefeated, firstTeam);
+            }
         }
-    }
-    deleteStack(&newDefeated); // sterg stiva invinsilor
-    *winner=newWinners;
-    fprintf(fr, "\nWINNERS OF ROUND NO:%d\n",nr);
-    for (Node *p = *winner; p != NULL; p = p->next)
-        fprintf(fr, "%-34s-  %.2f\n", p->val->nume, p->val->puncte);
-    (*nrechipe)=(*nrechipe)/2;
-    nr++;
+        deleteStack(&newDefeated); // sterg stiva invinsilor
+        *winner = newWinners;
+        fprintf(fr, "\nWINNERS OF ROUND NO:%d\n", nr);
+        for (Node *p = *winner; p != NULL; p = p->next)
+            fprintf(fr, "%-34s-  %.2f\n", p->val->nume, p->val->puncte);
+        (*nrechipe) = (*nrechipe) / 2;
+        nr++;
     }
 }

@@ -1,11 +1,11 @@
 #include "liste.h"
 #define MAXSIR 50
 #define NREX 5
-void deschideFisier(FILE **fisier, char numefisier[], char mod[]) 
+void deschideFisier(FILE **fisier, char numefisier[], char mod[])
 {
     *fisier = fopen(numefisier, mod);
     if (*fisier == NULL)
-     {
+    {
         printf("Fisierul %s nu a putut fi deschis", numefisier);
         exit(1);
     }
@@ -13,9 +13,9 @@ void deschideFisier(FILE **fisier, char numefisier[], char mod[])
 int main(int argc, char *argv[])
 {
     FILE *fc = NULL;
-     deschideFisier(&fc, argv[1], "rt");
+    deschideFisier(&fc, argv[1], "rt");
     FILE *fd = NULL;
-     deschideFisier(&fd, argv[2], "rt");
+    deschideFisier(&fd, argv[2], "rt");
     FILE *fr = NULL;
     deschideFisier(&fr, argv[3], "wt");
     int ex[NREX] = {0};
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     int ramase;
     if (ex[1] == 1)
     {
-         deschideFisier(&fr, argv[3], "w");
+        deschideFisier(&fr, argv[3], "w");
         calculeazapuncte(&lista);
         ramase = echiperamase(&lista, nrechipe);
         eliminaechipe(&lista, &nrechipe, ramase);
@@ -46,12 +46,15 @@ int main(int argc, char *argv[])
     // exercitiul 3
     if (ex[2] == 1)
     {
-         deschideFisier(&fr, argv[3], "at");
+        deschideFisier(&fr, argv[3], "at");
         Queue *q;
         Node *winner = NULL;
         Node *defeated = NULL;
+        team *top8 = NULL;
         primarunda(&q, &lista, &nrechipe, fr, &winner, &defeated);
-        runda(&q,&nrechipe,fr, &winner, &defeated);
+        runda(&q, &nrechipe, fr, &winner, &defeated, &top8);
+        /*for (team *p = lista8; p != NULL; p = p->next)
+            printf("%s %.2f\n", p->nume, p->puncte);*/
         fclose(fr);
     }
     fclose(fc);
