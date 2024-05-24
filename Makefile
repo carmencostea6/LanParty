@@ -1,6 +1,4 @@
 build:
-		gcc main.c liste.c -o lanParty
-run:
-		./lanParty c.in d.in r.out
+		gcc main.c liste.c stive-cozi.c -o lanParty
 clean:
 		rm -f lanParty

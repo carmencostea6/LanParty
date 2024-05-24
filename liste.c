@@ -1,10 +1,11 @@
 #include "liste.h"
-#define MAXSIR 50
+#define MAXSIR 100
 #define PUNCTAJMAX 1000
+// exercitiul 1
 void creeaza(FILE *fd, team **lista, int *nrechipe)
 {
     int nrjuc;
-    char sir[MAXSIR], nume[MAXSIR], spatiu;
+    char sir[100], nume[100], spatiu;
     team *head = NULL;
     fscanf(fd, "%d", nrechipe);
     for (int i = 0; i < *nrechipe; i++) // citesc datele echipelor
@@ -17,16 +18,18 @@ void creeaza(FILE *fd, team **lista, int *nrechipe)
         }
         fscanf(fd, "%d%c", &nrjuc, &spatiu);
         newNode->nrjuc = nrjuc;
-        fgets(nume, MAXSIR, fd);
-        nume[strcspn(nume, "\n")] = '\0'; // elimina caracterul newline "\n"
+        fgets(nume, 100, fd);
         newNode->nume = (char *)malloc((strlen(nume) + 1) * sizeof(char));
         strcpy(newNode->nume, nume);
-        if (head == NULL)
+        newNode->nume[strlen(newNode->nume)-1] = '\0'; 
+        if(newNode->nume[strlen(newNode->nume)-1] == ' ')
+            newNode->nume[strlen(newNode->nume)-1] = '\0';
+            if (head == NULL)
         {
             head = newNode;
             head->next = NULL;
         }
-        else
+       else
         {
             newNode->next = head; // adauga la inceputul listei
             head = newNode;
@@ -50,6 +53,7 @@ void creeaza(FILE *fd, team **lista, int *nrechipe)
     }
     *lista = head;
 }
+// exercitiul 2
 void calculeazapuncte(team **lista)
 {
     float suma;
@@ -91,7 +95,7 @@ void eliminaechipe(team **head, int *nrechipe, int ramase)
         team *prev = NULL;
         while (current != NULL)
         {
-            if (current->puncte == min)//daca gasesc o echipa cu minimul de puncte
+            if (current->puncte == min) // daca gasesc o echipa cu minimul de puncte
             {
                 if (current == *head) // daca sterg primul element
                 {
@@ -102,15 +106,15 @@ void eliminaechipe(team **head, int *nrechipe, int ramase)
                 }
                 else
                 {
-                    prev->next = current->next;//daca sterg din interior
+                    prev->next = current->next; // daca sterg din interior
                     free(current->players);
                     free(current);
                     current = prev->next;
                 }
                 (*nrechipe)--;
-                break; 
+                break;
             }
-            else// parcurg mai departe lista
+            else // parcurg mai departe lista
             {
                 prev = current;
                 current = current->next;

@@ -1,6 +1,7 @@
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+// task1
 struct Player
 {
     char *firstName;
@@ -17,8 +18,35 @@ struct Team
     struct Team *next;
 };
 typedef struct Team team;
-void creeaza(FILE *fd ,team **lista,int *nrechipe);
+void creeaza(FILE *fd, team **lista, int *nrechipe);
+// task2
 void calculeazapuncte(team **lista);
 float minim(team **head);
 int echiperamase(team **head, int nrechipe);
-void eliminaechipe(team ** head,int *nrechipe,int ramase);
+void eliminaechipe(team **head, int *nrechipe, int ramase);
+// task3
+struct N
+{
+    team *val;
+    struct N *next;
+};
+typedef struct N Node;
+struct Q
+{
+    Node *front, *rear;
+};
+typedef struct Q Queue;
+//cozi
+Queue *createQueue();
+void enQueue(Queue *q, team *v);
+int isEmpty(Queue *q);
+team *deQueue(Queue *q);
+void deleteQueue(Queue *q);
+//stive
+void push(Node **top, team *v);
+int isEmptyStack(Node *top);
+team *pop(Node **top);
+void deleteStack(Node **top);
+//functionalitate
+void primarunda(Queue **q, team **lista, int *nrechipe, FILE *fr,Node **winner, Node **defeated);
+void runda(Queue **q,int *nrechipe, FILE *fr, Node **winner, Node **defeated);
