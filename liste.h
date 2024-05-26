@@ -26,7 +26,7 @@ float minim(team **head);
 int echiperamase(team **head, int nrechipe);
 void eliminaechipe(team **head, int *nrechipe, int ramase);
 // task3
-void addAtBeginning ( team **head , team *v);
+void addAtBeginning(team **head, team *v);
 struct N
 {
     team *val;
@@ -38,17 +38,27 @@ struct Q
     Node *front, *rear;
 };
 typedef struct Q Queue;
-//cozi
+// cozi
 Queue *createQueue();
 void enQueue(Queue *q, team *v);
 int isEmpty(Queue *q);
 team *deQueue(Queue *q);
 void deleteQueue(Queue *q);
-//stive
+// stive
 void push(Node **top, team *v);
 int isEmptyStack(Node *top);
 team *pop(Node **top);
 void deleteStack(Node **top);
-//functionalitate
-void primarunda(Queue **q, team **lista, int *nrechipe, FILE *fr,Node **winner, Node **defeated);
-void runda(Queue **q,int *nrechipe, FILE *fr, Node **winner, Node **defeated,team **lista8);
+// functionalitate
+void primarunda(Queue **q, team **lista, int *nrechipe, FILE *fr, Node **winner, Node **defeated);
+void runda(Queue **q, int *nrechipe, FILE *fr, Node **winner, Node **defeated, team **lista8);
+// task 4
+struct T
+{
+    team *val; 
+    struct T *left, *right;
+};
+typedef struct T tree;
+tree *newNode(team *t);
+tree *insert(tree *node, team *key);
+void parcurgere(tree *root,FILE *fr);

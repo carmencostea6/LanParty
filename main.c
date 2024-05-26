@@ -44,18 +44,28 @@ int main(int argc, char *argv[])
         fclose(fr);
     }
     // exercitiul 3
+    team *top8 = NULL;
     if (ex[2] == 1)
     {
         deschideFisier(&fr, argv[3], "at");
         Queue *q;
         Node *winner = NULL;
         Node *defeated = NULL;
-        team *top8 = NULL;
         primarunda(&q, &lista, &nrechipe, fr, &winner, &defeated);
         runda(&q, &nrechipe, fr, &winner, &defeated, &top8);
         /*for (team *p = lista8; p != NULL; p = p->next)
             printf("%s %.2f\n", p->nume, p->puncte);*/
         fclose(fr);
+    }
+    if(ex[3]==1)
+    {
+        deschideFisier(&fr,argv[3],"at");
+        fprintf(fr, "\nTOP 8 TEAMS:\n");
+        tree *root=NULL;
+        for(team *p=top8;p!=NULL;p=p->next)
+          root=insert(root,p);
+        parcurgere(root,fr);
+
     }
     fclose(fc);
     fclose(fd);
