@@ -57,15 +57,27 @@ int main(int argc, char *argv[])
             printf("%s %.2f\n", p->nume, p->puncte);*/
         fclose(fr);
     }
+    tree *root=NULL;
     if(ex[3]==1)
     {
         deschideFisier(&fr,argv[3],"at");
         fprintf(fr, "\nTOP 8 TEAMS:\n");
-        tree *root=NULL;
         for(team *p=top8;p!=NULL;p=p->next)
-          root=insert(root,p);
-        parcurgere(root,fr);
-
+          root=insertBST(root,p);
+        parcurgereBST(root,fr);
+        fclose(fr);
+    }
+    if(ex[4]==1)
+    {
+        deschideFisier(&fr,argv[3],"at");
+        fprintf(fr, "\nTHE LEVEL 2 TEAMS ARE:\n");
+        avl *radacina=NULL;
+        /*for(team *p=top8;p!=NULL;p=p->next)
+          radacina=insertAVL(radacina,p);*/
+        AVLdinBST(root,&radacina);
+          int nivel=-1;
+        parcurgereAVL(radacina,fr,nivel);
+        fclose(fr);
     }
     fclose(fc);
     fclose(fd);
