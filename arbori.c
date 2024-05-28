@@ -1,4 +1,4 @@
-#include "liste.h"
+#include "fisier.h"
 // exercitiul 4
 tree *BSTnewNode(team *t)
 {
@@ -30,6 +30,14 @@ void parcurgereBST(tree *root, FILE *fr)
         fprintf(fr, "%-34s-  %.2f\n", root->val->nume, root->val->puncte);
         parcurgereBST(root->left, fr);
     }
+}
+void freeBST(tree *root) 
+{
+    if (root == NULL) 
+        return;
+    freeBST(root->left);
+    freeBST(root->right);
+    free(root);
 }
 // exercitiul 5
 int nodeHeight(avl *root)
@@ -135,4 +143,12 @@ void parcurgereAVL(avl *root, FILE *fr, int nivel)
             fprintf(fr, "%s\n", root->val->nume);
         parcurgereAVL(root->left, fr, nivel);
     }
+}
+void freeAVL(avl *radacina) 
+{
+    if (radacina == NULL) 
+        return;
+    freeAVL(radacina->left);
+    freeAVL(radacina->right);
+    free(radacina);
 }

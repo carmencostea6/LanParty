@@ -52,6 +52,7 @@ void deleteStack(Node **top);
 // functionalitate
 void primarunda(Queue **q, team **lista, int *nrechipe, FILE *fr, Node **winner, Node **defeated);
 void runda(Queue **q, int *nrechipe, FILE *fr, Node **winner, Node **defeated, team **lista8);
+void freeList(team *head) ;
 // task 4
 struct T
 {
@@ -62,6 +63,7 @@ typedef struct T tree;
 tree *BSTnewNode(team *t);
 tree *insertBST(tree *node, team *key);
 void parcurgereBST(tree *root, FILE *fr);
+void freeBST(tree *root) ;
 // TASK 5
 struct AVL
 {
@@ -79,3 +81,4 @@ avl *RLRotation(avl *Z);
 avl *insertAVL(avl *node, team *key);
 void AVLdinBST(tree *root,avl **radacina);
 void parcurgereAVL(avl *root, FILE *fr,int nivel);
+void freeAVL(avl *radacina) ;

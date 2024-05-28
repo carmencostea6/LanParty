@@ -1,4 +1,4 @@
-#include "liste.h"
+#include "fisier.h"
 // functii pentru cozi
 Queue *createQueue()
 {
@@ -57,7 +57,6 @@ void deleteQueue(Queue *q)
     {
         aux = q->front;
         q->front = q->front->next;
-        // printf (”%d” ,aux - ¿ val );
         free(aux);
     }
     free(q);

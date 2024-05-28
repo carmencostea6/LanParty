@@ -1,4 +1,4 @@
-#include "liste.h"
+#include "fisier.h"
 #define MAXSIR 100
 #define PUNCTAJMAX 1000
 void alocare()
@@ -136,4 +136,13 @@ void addAtBeginning(team **head, team *v) // copiez datele echipei v in lista-cu
     }
     newTeam->next = *head;
     *head = newTeam;
+}
+void freeList(team *head) 
+{
+    team *aux;
+    for(team *p=head;p!=NULL;p=p->next)
+    {
+        aux = p;
+        free(aux);
+    }
 }

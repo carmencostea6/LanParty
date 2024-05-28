@@ -1,4 +1,4 @@
-#include "liste.h"
+#include "fisier.h"
 #define MAXSIR 50
 #define NREX 5
 void deschideFisier(FILE **fisier, char numefisier[], char mod[])
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     int ramase;
     if (ex[1] == 1)
     {
-        deschideFisier(&fr, argv[3], "w");
+        deschideFisier(&fr, argv[3], "wt");
         calculeazapuncte(&lista);
         ramase = echiperamase(&lista, nrechipe);
         eliminaechipe(&lista, &nrechipe, ramase);
@@ -53,9 +53,10 @@ int main(int argc, char *argv[])
         Node *defeated = NULL;
         primarunda(&q, &lista, &nrechipe, fr, &winner, &defeated);
         runda(&q, &nrechipe, fr, &winner, &defeated, &top8);
-        /*for (team *p = lista8; p != NULL; p = p->next)
-            printf("%s %.2f\n", p->nume, p->puncte);*/
         fclose(fr);
+        deleteStack(&winner);
+        deleteStack(&defeated);
+        deleteQueue(q);
     }
     tree *root=NULL;
     if(ex[3]==1)
@@ -67,13 +68,11 @@ int main(int argc, char *argv[])
         parcurgereBST(root,fr);
         fclose(fr);
     }
+    avl *radacina=NULL;
     if(ex[4]==1)
     {
         deschideFisier(&fr,argv[3],"at");
         fprintf(fr, "\nTHE LEVEL 2 TEAMS ARE:\n");
-        avl *radacina=NULL;
-        /*for(team *p=top8;p!=NULL;p=p->next)
-          radacina=insertAVL(radacina,p);*/
         AVLdinBST(root,&radacina);
           int nivel=-1;
         parcurgereAVL(radacina,fr,nivel);
@@ -81,4 +80,8 @@ int main(int argc, char *argv[])
     }
     fclose(fc);
     fclose(fd);
+    freeList(lista); 
+    freeList(top8);
+    freeBST(root);
+    freeAVL(radacina);
 }
